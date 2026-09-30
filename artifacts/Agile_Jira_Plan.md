@@ -33,20 +33,31 @@ Create the following Epics in your Jira Backlog:
 
 ---
 
-## 3. Sprint Timeline (8 - 10 Weeks)
-We will operate on **5 Sprints**, each lasting **2 Weeks**.
+## 3. Team Allocation & Workflow
+Given the team size (**1 Frontend Developer, 2 Backend Developers**), the Backend will naturally outpace the Frontend. To prevent the FE from becoming a bottleneck, we will adopt an **API-First Development** approach.
 
-| Sprint & Timeline | Focus Area (Epics) | Key Deliverables & Ceremonies |
-| :--- | :--- | :--- |
-| **Sprint 1**<br/>(Weeks 1 - 2) | `[EPC-01]` Architecture & Setup | - Requirements Gathering & Tech Stack Finalization<br>- DB Schema Design & API Architecture<br>- UI/UX Wireframes<br>**Milestone**: Architecture Sign-off |
-| **Sprint 2**<br/>(Weeks 3 - 4) | `[EPC-02]` Inventory<br>`[EPC-03]` Vendors/POs<br>`[EPC-04]` Mfg & BOM | - Core Inventory CRUD operations<br>- PO Workflow and Vendor Portal<br>- Multi-level BOM config<br>**Milestone**: Demo 1 (Core Operations) |
-| **Sprint 3**<br/>(Weeks 5 - 6) | `[EPC-05]` Product Costing<br>`[EPC-06]` GST & Tax<br>`[EPC-07]` Recon Setup | - Landed Cost & FIFO/Batch costing logic<br>- B2B/B2C GST Invoicing generation<br>- Foundation for multi-channel data sync<br>**Milestone**: Demo 2 (Costing & Tax) |
-| **Sprint 4**<br/>(Weeks 7 - 8) | `[EPC-07]` Marketplace Recon<br>`[EPC-08]` Returns<br>`[EPC-09]` Marketing | - Payment & Fee Audit engine<br>- Return to Origin (RTO) tracking<br>- Meta/Google/Amazon Ad spend API integration<br>**Milestone**: Demo 3 (Analytics & Sync) |
-| **Sprint 5**<br/>(Weeks 9 - 10) | `[EPC-10]` Founder Dashboard<br>Testing, UAT, Deployment | - Executive Cockpit UI<br>- CM1/CM2 calculation pipelines<br>- End-to-end System Testing & Bug Fixing<br>- Production Deployment<br>**Milestone**: Final Acceptance & Go-Live |
+*   **Backend Dev 1 (Lead)**: Database Architecture, Core Business Logic (Costing, CM1/CM2 Engines), and Tax Compliance.
+*   **Backend Dev 2**: User Auth, CRUD APIs (Inventory, Vendors), Third-party integrations (Marketplaces, Ad Platforms), and background workers (Celery).
+*   **Frontend Dev (Solo)**: UI/UX Component Library (Tailwind/Shadcn), State Management, API integration, and Dashboard views.
+
+*Workflow Rule*: Backend developers MUST provide Swagger/Postman API documentation with mock responses *before* completing their Jira tickets. This allows the Frontend Developer to build UIs against the mocks without waiting for the final backend code.
 
 ---
 
-## 4. Agile Ceremonies & Best Practices
+## 4. Sprint Timeline (Parallel Tracks)
+We will operate on **5 Sprints**, each lasting **2 Weeks**.
+
+| Sprint & Timeline | Backend Focus (2 Devs) | Frontend Focus (1 Dev) | Milestone |
+| :--- | :--- | :--- | :--- |
+| **Sprint 1**<br/>(Weeks 1-2) | - DB Schema & Auth Setup<br>- API endpoints for Inventory & POs | - Next.js/Tailwind Boilerplate setup<br>- UI Component Library (Buttons, Tables, Modals)<br>- Mocking Inventory UI | Architecture Sign-off |
+| **Sprint 2**<br/>(Weeks 3-4) | - Manufacturing & BOM APIs<br>- Product Costing Logic (FIFO) | - Connect Inventory APIs<br>- Build Vendor & PO Workflows<br>- Build BOM interface | Demo 1 (Core Ops) |
+| **Sprint 3**<br/>(Weeks 5-6) | - GST & Tax Calculation APIs<br>- Multi-channel Sync Background Jobs | - Connect BOM APIs<br>- Product Costing & Tax UI Views | Demo 2 (Costing & Tax) |
+| **Sprint 4**<br/>(Weeks 7-8) | - Marketplace Reconciliation Engine<br>- Marketing API Integrations (Ads) | - Reconciliation Dispute UI<br>- Returns & Refunds Management UI | Demo 3 (Analytics) |
+| **Sprint 5**<br/>(Weeks 9-10) | - CM1/CM2 Profitability Engine APIs<br>- End-to-end bug fixing | - Founder Dashboard (Charts/Graphs)<br>- Live Operational KPIs UI<br>- UAT & Deployment | Final Go-Live |
+
+---
+
+## 5. Agile Ceremonies & Best Practices
 
 1. **Sprint Planning (Start of Sprint)**
    * Move stories from the Backlog into the active Sprint.
