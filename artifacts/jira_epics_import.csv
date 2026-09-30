@@ -1,0 +1,11 @@
+Issue Type,Summary,Description,Epic Name
+Epic,Architecture & Foundation Setup,Setup Django backend PostgreSQL DB and React frontend structure.,Architecture
+Epic,Inventory & Warehouse Management,Multi-Location Tracking Stock Movements and Reorder Automation,Inventory
+Epic,Vendor Management & Purchase Orders (PO),Vendor Master PO Workflow and Vendor Invoicing,Vendors & PO
+Epic,Manufacturing & BOM,Multi-Level BOM Production Work Orders and Wastage Analysis,Manufacturing
+Epic,Product Costing Engine,Landed Cost Batch Costing and Variance Tracking,Product Costing
+Epic,GST & Tax Compliance,Automated GST Invoicing Tax Reconciliation and E-Way Bills,Tax Compliance
+Epic,Marketplace Reconciliation Engine,Multi-Channel Sync Payment Audit and Discrepancy Reporting,Reconciliation
+Epic,Returns & Refunds Management,RTO Tracking Restock vs Damaged Flow and Financial Loss,Returns
+Epic,Marketing Analytics Integrations,Meta/Google Ad Platform Integration ROAS and CAC/LTV Metrics,Analytics
+Epic,Founder Dashboard & KPIs (CM1/CM2),Executive Cockpit Live Operational KPIs and Drill-Down Analytics,Dashboard
