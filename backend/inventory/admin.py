@@ -12,7 +12,7 @@ class CategoryAdmin(admin.ModelAdmin):
 
 @admin.register(Product)
 class ProductAdmin(admin.ModelAdmin):
-    list_display = ('sku', 'name', 'category', 'base_price', 'shelf_life_days')
+    list_display = ('sku', 'name', 'category', 'base_price', 'net_quantity', 'shelf_life_days')
     search_fields = ('sku', 'name')
     list_filter = ('category',)
 

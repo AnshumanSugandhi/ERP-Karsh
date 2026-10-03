@@ -32,6 +32,13 @@ class Product(models.Model):
     shelf_life_days = models.PositiveIntegerField(help_text="Expected shelf life in days")
     safety_stock_level = models.PositiveIntegerField(default=10)
     
+    @property
+    def net_quantity(self):
+        # Dynamically calculates exact stock from all active batches
+        from django.db.models import Sum
+        total = self.batches.aggregate(Sum('quantity'))['quantity__sum']
+        return total or 0
+
     def __str__(self):
         return f"{self.sku} - {self.name}"
 

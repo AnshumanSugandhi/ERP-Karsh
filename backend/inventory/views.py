@@ -1,6 +1,8 @@
 from rest_framework import viewsets
 from rest_framework.decorators import action
 from rest_framework.response import Response
+from django.db.models import Sum
+from django.db.models.functions import Coalesce
 from .models import Warehouse, Category, Product, StockBatch, StockMovement
 from .serializers import (
     WarehouseSerializer, CategorySerializer, ProductSerializer, 
@@ -16,7 +18,10 @@ class CategoryViewSet(viewsets.ModelViewSet):
     serializer_class = CategorySerializer
 
 class ProductViewSet(viewsets.ModelViewSet):
-    queryset = Product.objects.all()
+    # Annotate total stock by summing the quantity of all related stock batches
+    queryset = Product.objects.annotate(
+        total_stock=Coalesce(Sum('batches__quantity'), 0)
+    )
     serializer_class = ProductSerializer
 
 class StockBatchViewSet(viewsets.ModelViewSet):
