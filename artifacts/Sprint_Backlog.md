@@ -20,9 +20,9 @@
 - [x] **BE2-T2**: Create CRUD ViewSets for Products and Warehouses. Provide Postman/Swagger mocks to FE.
 
 ### Frontend Tasks
-- [ ] **FE-T1**: Setup Axios API client with JWT interceptors (to auto-attach tokens).
-- [ ] **FE-T2**: Build the Main Dashboard Layout (Sidebar navigation).
-- [ ] **FE-T3**: Build the "Product Master List" Data Table UI using Tailwind.
+- [x] **FE-T1**: Setup Axios API client with JWT interceptors (to auto-attach tokens).
+- [x] **FE-T2**: Build the Main Dashboard Layout (Sidebar navigation).
+- [x] **FE-T3**: Build the "Product Master List" Data Table UI using Tailwind.
 - [ ] **FE-T4**: Build the "Dead Stock & Expiry Alerts" widget/banner on the main dashboard to immediately flag at-risk items.
 - [ ] **FE-T5**: Build the "Add New Product / GRN" Modal ensuring fields for MFD and EXP are present.
 
