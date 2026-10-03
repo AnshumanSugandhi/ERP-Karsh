@@ -1,11 +1,16 @@
 'use client';
 import { useState, useEffect } from 'react';
 import api from '@/lib/api';
-import { PackagePlus, Search, Edit, Trash2 } from 'lucide-react';
+import { PackagePlus, Search, Edit, Trash2, ArrowDownToLine } from 'lucide-react';
+import AddProductModal from '@/components/inventory/AddProductModal';
+import ReceiveStockModal from '@/components/inventory/ReceiveStockModal';
 
 export default function InventoryPage() {
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
+  
+  const [isAddModalOpen, setIsAddModalOpen] = useState(false);
+  const [receiveModalState, setReceiveModalState] = useState({ isOpen: false, product: null });
 
   useEffect(() => {
     fetchProducts();
@@ -29,7 +34,9 @@ export default function InventoryPage() {
             <h1 className="text-2xl font-bold text-black">Product Master List</h1>
             <p className="text-gray-500 text-sm mt-1">Manage your cosmetics catalog and stock batches.</p>
         </div>
-        <button className="flex items-center gap-2 bg-black hover:bg-gray-800 text-white px-4 py-2 rounded transition-all font-medium text-sm">
+        <button 
+          onClick={() => setIsAddModalOpen(true)}
+          className="flex items-center gap-2 bg-black hover:bg-gray-800 text-white px-4 py-2 rounded transition-all font-medium text-sm">
           <PackagePlus size={18} />
           Add Product
         </button>
@@ -103,8 +110,14 @@ export default function InventoryPage() {
                     </td>
                     <td className="p-4">
                       <div className="flex items-center justify-center gap-3">
-                          <button className="text-gray-500 hover:text-black transition-colors"><Edit size={16} /></button>
-                          <button className="text-gray-500 hover:text-black transition-colors"><Trash2 size={16} /></button>
+                          <button 
+                            title="Receive Stock"
+                            onClick={() => setReceiveModalState({ isOpen: true, product })}
+                            className="text-black hover:bg-gray-200 transition-colors border border-gray-300 p-1.5 rounded flex items-center gap-1 text-xs font-semibold uppercase">
+                            <ArrowDownToLine size={14} /> GRN
+                          </button>
+                          <button title="Edit" className="text-gray-500 hover:text-black transition-colors"><Edit size={16} /></button>
+                          <button title="Delete" className="text-gray-500 hover:text-black transition-colors"><Trash2 size={16} /></button>
                       </div>
                     </td>
                   </tr>
@@ -114,6 +127,19 @@ export default function InventoryPage() {
           </table>
         </div>
       </div>
+      
+      <AddProductModal 
+        isOpen={isAddModalOpen} 
+        onClose={() => setIsAddModalOpen(false)} 
+        onSuccess={fetchProducts} 
+      />
+      
+      <ReceiveStockModal 
+        isOpen={receiveModalState.isOpen} 
+        product={receiveModalState.product}
+        onClose={() => setReceiveModalState({ isOpen: false, product: null })} 
+        onSuccess={fetchProducts} 
+      />
     </div>
   );
 }

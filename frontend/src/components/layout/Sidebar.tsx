@@ -3,7 +3,10 @@
 import Link from 'next/link';
 import { Package, LayoutDashboard, Settings, LogOut, ShoppingCart, Truck, Factory, Users } from 'lucide-react';
 
+import { usePathname } from 'next/navigation';
 export default function Sidebar() {
+  const pathname = usePathname();
+  if (pathname === '/login') return null;
   return (
     <div className="w-64 bg-black text-white h-screen flex flex-col fixed left-0 top-0 border-r border-gray-200">
       <div className="p-6 text-xl font-bold tracking-widest text-white border-b border-gray-800 uppercase">
@@ -60,3 +63,4 @@ export default function Sidebar() {
     </div>
   );
 }
+
