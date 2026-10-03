@@ -1,7 +1,7 @@
 'use client';
 
 import Link from 'next/link';
-import { Package, LayoutDashboard, Settings, LogOut, ShoppingCart, Truck, Factory, Users } from 'lucide-react';
+import { Package, LayoutDashboard, Settings, LogOut, ShoppingCart, Truck, Factory, Users, Map as MapIcon } from 'lucide-react';
 
 import { usePathname } from 'next/navigation';
 export default function Sidebar() {
@@ -23,6 +23,11 @@ export default function Sidebar() {
         <Link href="/inventory" className="flex items-center gap-3 p-3 rounded-lg hover:bg-slate-800 transition-colors text-slate-400 hover:text-indigo-400">
           <Package size={18} />
           <span className="text-sm font-medium">Inventory</span>
+        </Link>
+
+        <Link href="/wms" className="flex items-center gap-3 p-3 rounded-lg hover:bg-slate-800 transition-colors text-slate-400 hover:text-indigo-400">
+          <MapIcon size={18} />
+          <span className="text-sm font-medium">Warehouse Map</span>
         </Link>
         
         <Link href="/vendors" className="flex items-center gap-3 p-3 rounded-lg hover:bg-slate-800 transition-colors text-slate-400 hover:text-indigo-400">
@@ -64,4 +69,5 @@ export default function Sidebar() {
     </div>
   );
 }
+
 

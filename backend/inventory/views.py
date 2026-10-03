@@ -35,6 +35,13 @@ class StockBatchViewSet(viewsets.ModelViewSet):
     queryset = StockBatch.objects.all()
     serializer_class = StockBatchSerializer
 
+    def get_queryset(self):
+        queryset = StockBatch.objects.all()
+        location_id = self.request.query_params.get('location')
+        if location_id:
+            queryset = queryset.filter(location_id=location_id)
+        return queryset
+
     @action(detail=False, methods=['get'])
     def near_expiry(self, request):
         """Custom endpoint to fetch only near-expiring stock batches"""
@@ -58,3 +65,5 @@ class StockMovementViewSet(viewsets.ModelViewSet):
 class StorageLocationViewSet(viewsets.ModelViewSet):
     queryset = StorageLocation.objects.all()
     serializer_class = StorageLocationSerializer
+
+
