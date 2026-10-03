@@ -13,6 +13,8 @@ This backlog contains the end-to-end user stories and requirements for the ERP S
   - *Acceptance Criteria*: System requires source and destination for transfers. Scrap movements require a reason code.
 - **STORY-2.3**: As a manager, I receive automated Reorder Alerts.
   - *Acceptance Criteria*: System flags items dropping below 'Safety Stock' thresholds.
+- **STORY-2.4**: As an inventory manager, I can track Manufacturing Date (MFD), Expiry Date (EXP), and Shelf Life for products at the batch level.
+- **STORY-2.5**: As a manager, I see immediate dashboard alerts for 'Dead Stock' (non-moving inventory) and 'Near-Expiring' products so I can take action.
 
 ## EPIC 3: Vendor Management & Purchase Orders
 - **STORY-3.1**: As a procurement officer, I can maintain a Vendor Master list (terms, lead times, pricing history).

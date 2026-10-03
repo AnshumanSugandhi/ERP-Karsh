@@ -13,17 +13,18 @@
 **Goal:** Establish the core data models for Inventory and allow the frontend to render stock tables.
 
 ### Backend Tasks
-- [ ] **BE1-T1**: Create Django Models for `Warehouse`, `Category`, `Product` (SKU, Name, Base Price, HSN Code).
-- [ ] **BE1-T2**: Create Django Models for `StockMovement` (GRN, Transfer, Scrap) and `StockLevel` (Current quantity per warehouse).
-- [ ] **BE1-T3**: Write DRF ModelSerializers for Inventory models.
+- [ ] **BE1-T1**: Create Django Models for `Warehouse`, `Category`, `Product` (SKU, Base Price, Shelf Life Days, etc.).
+- [ ] **BE1-T2**: Create Django Models for `StockBatch` (MFD, EXP dates) and `StockMovement` (GRN, Transfer, Scrap).
+- [ ] **BE1-T3**: Write DRF ModelSerializers. Create custom API filters/endpoints for `?status=near_expiry` and `?status=dead_stock`.
 - [ ] **BE2-T1**: Setup SimpleJWT Authentication in `settings.py` and create Auth endpoints (`/api/v1/auth/login/`).
 - [ ] **BE2-T2**: Create CRUD ViewSets for Products and Warehouses. Provide Postman/Swagger mocks to FE.
 
 ### Frontend Tasks
 - [ ] **FE-T1**: Setup Axios API client with JWT interceptors (to auto-attach tokens).
-- [ ] **FE-T2**: Build the Main Dashboard Layout (Sidebar navigation: Inventory, POs, Manufacturing, Finance).
+- [ ] **FE-T2**: Build the Main Dashboard Layout (Sidebar navigation).
 - [ ] **FE-T3**: Build the "Product Master List" Data Table UI using Tailwind.
-- [ ] **FE-T4**: Build the "Add New Product" Modal/Form.
+- [ ] **FE-T4**: Build the "Dead Stock & Expiry Alerts" widget/banner on the main dashboard to immediately flag at-risk items.
+- [ ] **FE-T5**: Build the "Add New Product / GRN" Modal ensuring fields for MFD and EXP are present.
 
 ---
 
