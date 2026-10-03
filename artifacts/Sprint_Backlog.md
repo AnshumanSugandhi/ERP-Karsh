@@ -13,11 +13,11 @@
 **Goal:** Establish the core data models for Inventory and allow the frontend to render stock tables.
 
 ### Backend Tasks
-- [ ] **BE1-T1**: Create Django Models for `Warehouse`, `Category`, `Product` (SKU, Base Price, Shelf Life Days, etc.).
-- [ ] **BE1-T2**: Create Django Models for `StockBatch` (MFD, EXP dates) and `StockMovement` (GRN, Transfer, Scrap).
-- [ ] **BE1-T3**: Write DRF ModelSerializers. Create custom API filters/endpoints for `?status=near_expiry` and `?status=dead_stock`.
-- [ ] **BE2-T1**: Setup SimpleJWT Authentication in `settings.py` and create Auth endpoints (`/api/v1/auth/login/`).
-- [ ] **BE2-T2**: Create CRUD ViewSets for Products and Warehouses. Provide Postman/Swagger mocks to FE.
+- [x] **BE1-T1**: Create Django Models for `Warehouse`, `Category`, `Product` (SKU, Base Price, Shelf Life Days, etc.).
+- [x] **BE1-T2**: Create Django Models for `StockBatch` (MFD, EXP dates) and `StockMovement` (GRN, Transfer, Scrap).
+- [x] **BE1-T3**: Write DRF ModelSerializers. Create custom API filters/endpoints for `?status=near_expiry` and `?status=dead_stock`.
+- [x] **BE2-T1**: Setup SimpleJWT Authentication in `settings.py` and create Auth endpoints (`/api/v1/auth/login/`).
+- [x] **BE2-T2**: Create CRUD ViewSets for Products and Warehouses. Provide Postman/Swagger mocks to FE.
 
 ### Frontend Tasks
 - [ ] **FE-T1**: Setup Axios API client with JWT interceptors (to auto-attach tokens).
