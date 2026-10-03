@@ -22,14 +22,15 @@ To effectively manage this project, set up a **Jira Software** project using the
 Create the following Epics in your Jira Backlog:
 1. `[EPC-01]` Architecture & Foundation Setup
 2. `[EPC-02]` Inventory & Warehouse Management
-3. `[EPC-03]` Vendor Management & Purchase Orders (PO)
-4. `[EPC-04]` Manufacturing & BOM
-5. `[EPC-05]` Product Costing Engine
-6. `[EPC-06]` GST & Tax Compliance
-7. `[EPC-07]` Marketplace Reconciliation Engine
-8. `[EPC-08]` Returns & Refunds Management
-9. `[EPC-09]` Marketing Analytics Integrations
-10. `[EPC-10]` Founder Dashboard & KPIs (CM1/CM2)
+3. `[EPC-03]` Advanced WMS & Digital Mapping
+4. `[EPC-04]` Vendor Management & Purchase Orders (PO)
+5. `[EPC-05]` Manufacturing & BOM
+6. `[EPC-06]` Product Costing Engine
+7. `[EPC-07]` GST & Tax Compliance
+8. `[EPC-08]` Marketplace Reconciliation Engine
+9. `[EPC-09]` Returns & Refunds Management
+10. `[EPC-10]` Marketing Analytics Integrations
+11. `[EPC-11]` Founder Dashboard & KPIs (CM1/CM2)
 
 ---
 
@@ -50,8 +51,8 @@ We will operate on **5 Sprints**, each lasting **2 Weeks**.
 | Sprint & Timeline | Backend Focus (2 Devs) | Frontend Focus (1 Dev) | Milestone |
 | :--- | :--- | :--- | :--- |
 | **Sprint 1**<br/>(Weeks 1-2) | - DB Schema & Auth Setup<br>- API endpoints for Inventory & POs | - Next.js/Tailwind Boilerplate setup<br>- UI Component Library (Buttons, Tables, Modals)<br>- Mocking Inventory UI | Architecture Sign-off |
-| **Sprint 2**<br/>(Weeks 3-4) | - Manufacturing & BOM APIs<br>- Product Costing Logic (FIFO) | - Connect Inventory APIs<br>- Build Vendor & PO Workflows<br>- Build BOM interface | Demo 1 (Core Ops) |
-| **Sprint 3**<br/>(Weeks 5-6) | - GST & Tax Calculation APIs<br>- Multi-channel Sync Background Jobs | - Connect BOM APIs<br>- Product Costing & Tax UI Views | Demo 2 (Costing & Tax) |
+| **Sprint 2**<br/>(Weeks 3-4) | - Advanced WMS Mapping APIs<br>- Bin-level Stock Tracking | - WMS Mapping UI (Aisles/Racks)<br>- Interactive Warehouse Grid | Demo 1 (Core Ops) |
+| **Sprint 3**<br/>(Weeks 5-6) | - Vendor & PO APIs<br>- Manufacturing & BOM Logic | - Purchase Order Dashboard<br>- BOM Tree Views | Demo 2 (Procurement & BOM) |
 | **Sprint 4**<br/>(Weeks 7-8) | - Marketplace Reconciliation Engine<br>- Marketing API Integrations (Ads) | - Reconciliation Dispute UI<br>- Returns & Refunds Management UI | Demo 3 (Analytics) |
 | **Sprint 5**<br/>(Weeks 9-10) | - CM1/CM2 Profitability Engine APIs<br>- End-to-end bug fixing | - Founder Dashboard (Charts/Graphs)<br>- Live Operational KPIs UI<br>- UAT & Deployment | Final Go-Live |
 
@@ -75,3 +76,5 @@ To tie Jira into the development cycle:
 2. Commit messages should include the ticket number for automatic linking in Jira (e.g., `git commit -m "EPC-02: Added GRN tracking logic"`).
 3. Pull Requests (PRs) must be reviewed before merging into the `develop` or `main` branch.
 4. CI/CD pipelines automatically run tests on PRs and deploy to a Staging server for QA.
+
+

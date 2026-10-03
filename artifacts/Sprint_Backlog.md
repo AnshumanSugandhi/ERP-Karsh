@@ -28,17 +28,18 @@
 
 ---
 
-## SPRINT 3: Manufacturing & BOM (UPCOMING)
-**Goal:** Connect Raw Materials to Finished Goods via Multi-Level BOMs.
+## SPRINT 3: Advanced WMS & Digital Mapping (UPCOMING)
+**Goal:** Digitally map the physical warehouse layout down to the bin level.
 
 ### Backend Tasks
-- [ ] **BE1-T1**: Create Models for `BillOfMaterial` (Parent Product, Child Material, Quantity).
-- [ ] **BE1-T2**: Create `WorkOrder` Models and logic to auto-deduct Raw Materials on completion.
-- [ ] **BE2-T1**: Expose APIs for BOM management.
-- [ ] **BE2-T2**: Create Wastage tracking logic in the database.
+- [ ] **BE1-T1**: Create Hierarchical Models for `Zone`, `Aisle`, `Rack`, `Shelf`, and `Bin` attached to `Warehouse`.
+- [ ] **BE1-T2**: Update `StockBatch` and `StockMovement` to track exact `Bin` locations.
+- [ ] **BE2-T1**: Expose DRF ViewSets for WMS Hierarchy with nested serializers.
+- [ ] **BE2-T2**: Create API for calculating capacity/utilization per bin.
 
 ### Frontend Tasks
-- [ ] **FE-T1**: Build BOM Tree-View UI.
-- [ ] **FE-T2**: Build Work Order kanban/list board (Pending, In Progress, Completed).
+- [ ] **FE-T1**: Build WMS Configuration UI to define Zones, Aisles, Racks.
+- [ ] **FE-T2**: Build Interactive Visual Warehouse Grid map.
 
 *(Further Sprints will be detailed in planning sessions as velocity is established).*
+

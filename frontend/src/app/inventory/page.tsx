@@ -7,6 +7,8 @@ import ReceiveStockModal from '@/components/inventory/ReceiveStockModal';
 
 export default function InventoryPage() {
   const [products, setProducts] = useState([]);
+  const [searchTerm, setSearchTerm] = useState('');
+  const [productToEdit, setProductToEdit] = useState<any>(null);
   const [loading, setLoading] = useState(true);
   
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
@@ -15,6 +17,18 @@ export default function InventoryPage() {
   useEffect(() => {
     fetchProducts();
   }, []);
+
+  const handleDelete = async (id: number) => {
+    if (confirm('Are you sure you want to delete this product?')) {
+      try {
+        await api.delete(`/inventory/products/${id}/`);
+        fetchProducts();
+      } catch (err) {
+        console.error(err);
+        alert('Failed to delete product.');
+      }
+    }
+  };
 
   const fetchProducts = async () => {
     try {
@@ -31,26 +45,28 @@ export default function InventoryPage() {
     <div className="space-y-6">
       <div className="flex justify-between items-center">
         <div>
-            <h1 className="text-2xl font-bold text-black">Product Master List</h1>
-            <p className="text-gray-500 text-sm mt-1">Manage your cosmetics catalog and stock batches.</p>
+            <h1 className="text-2xl font-bold text-white">Product Master List</h1>
+            <p className="text-slate-400 text-sm mt-1">Manage your cosmetics catalog and stock batches.</p>
         </div>
         <button 
-          onClick={() => setIsAddModalOpen(true)}
-          className="flex items-center gap-2 bg-black hover:bg-gray-800 text-white px-4 py-2 rounded transition-all font-medium text-sm">
+          onClick={() => { setProductToEdit(null); setIsAddModalOpen(true); }}
+          className="flex items-center gap-2 bg-indigo-600 hover:bg-indigo-500 text-white px-4 py-2 rounded-lg transition-all shadow-lg font-medium text-sm">
           <PackagePlus size={18} />
           Add Product
         </button>
       </div>
 
       {/* Table Card */}
-      <div className="bg-white border border-gray-200 overflow-hidden">
-        <div className="p-4 border-b border-gray-200 flex justify-between items-center bg-gray-50">
+      <div className="bg-slate-900 border border-slate-800 rounded-xl overflow-hidden shadow-lg">
+        <div className="p-4 border-b border-slate-800 flex justify-between items-center bg-slate-900">
           <div className="relative w-80">
-            <Search className="absolute left-3 top-2.5 text-gray-400" size={16} />
+            <Search className="absolute left-3 top-2.5 text-slate-500" size={16} />
             <input 
               type="text"
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
               placeholder="Search products by SKU or Name..." 
-              className="pl-10 pr-4 py-2 w-full border border-gray-300 rounded focus:outline-none focus:border-black focus:ring-1 focus:ring-black text-sm text-black bg-white"
+              className="pl-10 pr-4 py-2 w-full border border-slate-700 rounded-lg focus:outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 text-sm text-slate-200 bg-slate-950 placeholder-slate-500"
             />
           </div>
         </div>
@@ -58,7 +74,7 @@ export default function InventoryPage() {
         <div className="overflow-x-auto">
           <table className="w-full text-left border-collapse">
             <thead>
-              <tr className="bg-gray-50 text-gray-500 text-xs uppercase tracking-wider border-b border-gray-200">
+              <tr className="bg-slate-800/50 text-slate-400 text-xs uppercase tracking-wider border-b border-slate-800">
                 <th className="p-4 font-semibold">SKU</th>
                 <th className="p-4 font-semibold">Product Info</th>
                 <th className="p-4 font-semibold">Category</th>
@@ -68,43 +84,43 @@ export default function InventoryPage() {
                 <th className="p-4 font-semibold text-center">Actions</th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-gray-200 text-gray-700 text-sm">
+            <tbody className="divide-y divide-slate-800/50 text-slate-300 text-sm">
               {loading ? (
                 <tr>
-                  <td colSpan={7} className="p-8 text-center text-gray-500">Loading product catalog...</td>
+                  <td colSpan={7} className="p-8 text-center text-slate-500">Loading product catalog...</td>
                 </tr>
-              ) : products.length === 0 ? (
+              ) : products.filter((p: any) => p.name.toLowerCase().includes(searchTerm.toLowerCase()) || p.sku.toLowerCase().includes(searchTerm.toLowerCase())).length === 0 ? (
                 <tr>
-                  <td colSpan={7} className="p-8 text-center text-gray-500">No products found. Click 'Add Product' to create one.</td>
+                  <td colSpan={7} className="p-8 text-center text-slate-500">No products found. Click 'Add Product' to create one.</td>
                 </tr>
               ) : (
-                products.map((product: any) => (
-                  <tr key={product.id} className="hover:bg-gray-50 transition-colors">
-                    <td className="p-4 font-mono font-semibold text-gray-900">{product.sku}</td>
+                products.filter((p: any) => p.name.toLowerCase().includes(searchTerm.toLowerCase()) || p.sku.toLowerCase().includes(searchTerm.toLowerCase())).map((product: any) => (
+                  <tr key={product.id} className="hover:bg-slate-800/30 transition-colors">
+                    <td className="p-4 font-mono font-semibold text-slate-200">{product.sku}</td>
                     <td className="p-4 flex items-center gap-4">
                       {product.image ? (
-                        <img src={product.image} alt={product.name} className="w-12 h-12 rounded-lg object-cover border border-gray-200 shadow-sm" />
+                        <img src={product.image} alt={product.name} className="w-12 h-12 rounded-lg object-cover border border-slate-700 shadow-sm" />
                       ) : (
-                        <div className="w-12 h-12 rounded-lg bg-gray-100 border border-gray-200 flex items-center justify-center text-gray-400 text-[10px] font-medium text-center leading-tight">No Img</div>
+                        <div className="w-12 h-12 rounded-lg bg-slate-800 border border-slate-700 flex items-center justify-center text-slate-500 text-[10px] font-medium text-center leading-tight">No Img</div>
                       )}
                       <div>
-                          <span className="font-semibold text-gray-800 block text-base">{product.name}</span>
-                          <span className="text-xs text-gray-500 block">HSN: {product.hsn_code || 'N/A'}</span>
+                          <span className="font-semibold text-white block text-base">{product.name}</span>
+                          <span className="text-xs text-slate-500 block">HSN: {product.hsn_code || 'N/A'}</span>
                       </div>
                     </td>
                     <td className="p-4">
-                        <span className="bg-gray-100 text-black border border-gray-300 px-2 py-1 rounded text-xs font-semibold">
+                        <span className="bg-slate-800 text-slate-300 border border-slate-700 px-2 py-1 rounded text-xs font-semibold">
                             {product.category_name || 'Uncategorized'}
                         </span>
                     </td>
                     <td className="p-4 text-center">
-                        <span className="text-sm font-bold text-black">
+                        <span className="text-sm font-bold text-white">
                             {product.total_stock || 0}
                         </span>
                     </td>
-                    <td className="p-4 text-right font-semibold text-black">₹{product.base_price}</td>
+                    <td className="p-4 text-right font-semibold text-white">₹{product.base_price}</td>
                     <td className="p-4 text-center">
-                      <span className="text-black text-xs font-semibold border border-gray-300 px-2 py-1 rounded">
+                      <span className="text-slate-300 text-xs font-semibold border border-slate-700 px-2 py-1 rounded">
                         {product.shelf_life_days} Days
                       </span>
                     </td>
@@ -113,11 +129,11 @@ export default function InventoryPage() {
                           <button 
                             title="Receive Stock"
                             onClick={() => setReceiveModalState({ isOpen: true, product })}
-                            className="text-black hover:bg-gray-200 transition-colors border border-gray-300 p-1.5 rounded flex items-center gap-1 text-xs font-semibold uppercase">
+                            className="text-cyan-400 hover:text-white hover:bg-cyan-500/20 transition-colors border border-cyan-500/30 p-1.5 rounded flex items-center gap-1 text-xs font-semibold uppercase">
                             <ArrowDownToLine size={14} /> GRN
                           </button>
-                          <button title="Edit" className="text-gray-500 hover:text-black transition-colors"><Edit size={16} /></button>
-                          <button title="Delete" className="text-gray-500 hover:text-black transition-colors"><Trash2 size={16} /></button>
+                          <button onClick={() => { setProductToEdit(product); setIsAddModalOpen(true); }} title="Edit" className="text-slate-500 hover:text-white transition-colors"><Edit size={16} /></button>
+                          <button onClick={() => handleDelete(product.id)} title="Delete" className="text-slate-500 hover:text-rose-400 transition-colors"><Trash2 size={16} /></button>
                       </div>
                     </td>
                   </tr>
@@ -129,7 +145,8 @@ export default function InventoryPage() {
       </div>
       
       <AddProductModal 
-        isOpen={isAddModalOpen} 
+        isOpen={isAddModalOpen}
+        productToEdit={productToEdit} 
         onClose={() => setIsAddModalOpen(false)} 
         onSuccess={fetchProducts} 
       />
@@ -143,3 +160,5 @@ export default function InventoryPage() {
     </div>
   );
 }
+
+
