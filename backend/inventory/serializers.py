@@ -1,5 +1,23 @@
 from rest_framework import serializers
-from .models import Warehouse, Category, Product, StockBatch, StockMovement
+from .models import Warehouse, Category, Product, StockBatch, StockMovement, StorageLocation
+
+class StorageLocationSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = StorageLocation
+        fields = '__all__'
+
+class StorageLocationTreeSerializer(serializers.ModelSerializer):
+    children = serializers.SerializerMethodField()
+
+    class Meta:
+        model = StorageLocation
+        fields = ['id', 'name', 'location_type', 'barcode', 'max_weight', 'children']
+
+    def get_children(self, obj):
+        if obj.children.exists():
+            return StorageLocationTreeSerializer(obj.children.all(), many=True).data
+        return []
+
 
 class WarehouseSerializer(serializers.ModelSerializer):
     class Meta:
@@ -37,3 +55,4 @@ class StockMovementSerializer(serializers.ModelSerializer):
     class Meta:
         model = StockMovement
         fields = '__all__'
+

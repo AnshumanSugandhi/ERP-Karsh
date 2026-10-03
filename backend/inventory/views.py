@@ -3,8 +3,8 @@ from rest_framework.decorators import action
 from rest_framework.response import Response
 from django.db.models import Sum
 from django.db.models.functions import Coalesce
-from .models import Warehouse, Category, Product, StockBatch, StockMovement
-from .serializers import (
+from .models import Warehouse, Category, Product, StockBatch, StockMovement, StorageLocation
+from .serializers import ( StorageLocationSerializer, StorageLocationTreeSerializer,
     WarehouseSerializer, CategorySerializer, ProductSerializer, 
     StockBatchSerializer, StockMovementSerializer
 )
@@ -12,6 +12,13 @@ from .serializers import (
 class WarehouseViewSet(viewsets.ModelViewSet):
     queryset = Warehouse.objects.all()
     serializer_class = WarehouseSerializer
+
+    @action(detail=True, methods=['get'])
+    def layout_tree(self, request, pk=None):
+        warehouse = self.get_object()
+        root_locations = StorageLocation.objects.filter(warehouse=warehouse, parent__isnull=True)
+        serializer = StorageLocationTreeSerializer(root_locations, many=True)
+        return Response(serializer.data)
 
 class CategoryViewSet(viewsets.ModelViewSet):
     queryset = Category.objects.all()
@@ -47,3 +54,7 @@ class StockBatchViewSet(viewsets.ModelViewSet):
 class StockMovementViewSet(viewsets.ModelViewSet):
     queryset = StockMovement.objects.all()
     serializer_class = StockMovementSerializer
+
+class StorageLocationViewSet(viewsets.ModelViewSet):
+    queryset = StorageLocation.objects.all()
+    serializer_class = StorageLocationSerializer

@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Warehouse, Category, Product, StockBatch, StockMovement
+from .models import Warehouse, Category, Product, StockBatch, StockMovement, StorageLocation
 
 @admin.register(Warehouse)
 class WarehouseAdmin(admin.ModelAdmin):
@@ -32,3 +32,9 @@ class StockBatchAdmin(admin.ModelAdmin):
 class StockMovementAdmin(admin.ModelAdmin):
     list_display = ('movement_type', 'batch', 'quantity', 'source_warehouse', 'destination_warehouse', 'timestamp')
     list_filter = ('movement_type', 'timestamp')
+
+@admin.register(StorageLocation)
+class StorageLocationAdmin(admin.ModelAdmin):
+    list_display = ('name', 'location_type', 'warehouse', 'parent', 'barcode')
+    list_filter = ('location_type', 'warehouse')
+    search_fields = ('name', 'barcode')

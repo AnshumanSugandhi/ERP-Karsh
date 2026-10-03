@@ -2,6 +2,7 @@ from django.db import models
 from django.contrib.auth import get_user_model
 from django.utils import timezone
 from datetime import timedelta
+import uuid
 
 User = get_user_model()
 
@@ -42,6 +43,36 @@ class Product(models.Model):
     def __str__(self):
         return f"{self.sku} - {self.name}"
 
+
+class StorageLocation(models.Model):
+    LOCATION_TYPES = (
+        ('ZONE', 'Zone'),
+        ('AISLE', 'Aisle'),
+        ('RACK', 'Rack'),
+        ('SHELF', 'Shelf'),
+        ('BIN', 'Bin'),
+    )
+    warehouse = models.ForeignKey(Warehouse, on_delete=models.CASCADE, related_name='locations')
+    parent = models.ForeignKey('self', on_delete=models.CASCADE, null=True, blank=True, related_name='children')
+    name = models.CharField(max_length=100)
+    location_type = models.CharField(max_length=20, choices=LOCATION_TYPES)
+    barcode = models.CharField(max_length=100, unique=True, blank=True)
+    
+    # Optional capacity metrics
+    max_weight = models.DecimalField(max_digits=10, decimal_places=2, null=True, blank=True) 
+
+    def save(self, *args, **kwargs):
+        if not self.barcode:
+            # Auto-generate a simple fallback barcode
+            self.barcode = f"WH{self.warehouse_id}-{self.location_type[:1]}-{uuid.uuid4().hex[:6]}".upper()
+        super().save(*args, **kwargs)
+
+    def __str__(self):
+        if self.parent:
+            return f"{self.parent.name} > {self.name} ({self.location_type})"
+        return f"{self.warehouse.name} > {self.name} ({self.location_type})"
+
+
 class StockBatchManager(models.Manager):
     def near_expiry(self, days_threshold=30):
         """Returns batches that are expiring within the given days and still have stock."""
@@ -53,9 +84,12 @@ class StockBatchManager(models.Manager):
         threshold = timezone.now() - timedelta(days=days_since_creation)
         return self.filter(created_at__lte=threshold, quantity__gt=0)
 
+
 class StockBatch(models.Model):
     product = models.ForeignKey(Product, on_delete=models.CASCADE, related_name='batches')
-    warehouse = models.ForeignKey(Warehouse, on_delete=models.CASCADE)
+    warehouse = models.ForeignKey(Warehouse, on_delete=models.CASCADE, related_name='batches')
+    location = models.ForeignKey(StorageLocation, on_delete=models.SET_NULL, null=True, blank=True, related_name='batches', help_text='Specific bin/shelf location')
+    
     batch_number = models.CharField(max_length=100, unique=True)
     mfd_date = models.DateField(help_text="Manufacturing Date")
     expiry_date = models.DateField(help_text="Expiry Date")
@@ -68,6 +102,7 @@ class StockBatch(models.Model):
     def __str__(self):
         return f"{self.batch_number} ({self.product.name})"
 
+
 class StockMovement(models.Model):
     MOVEMENT_TYPES = (
         ('GRN', 'Goods Received Note'),
@@ -76,8 +111,13 @@ class StockMovement(models.Model):
         ('DISPATCH', 'Dispatch')
     )
     batch = models.ForeignKey(StockBatch, on_delete=models.CASCADE)
+    
     source_warehouse = models.ForeignKey(Warehouse, related_name='outbound_movements', on_delete=models.SET_NULL, null=True, blank=True)
     destination_warehouse = models.ForeignKey(Warehouse, related_name='inbound_movements', on_delete=models.SET_NULL, null=True, blank=True)
+    
+    source_location = models.ForeignKey(StorageLocation, related_name='outbound_movements', on_delete=models.SET_NULL, null=True, blank=True)
+    destination_location = models.ForeignKey(StorageLocation, related_name='inbound_movements', on_delete=models.SET_NULL, null=True, blank=True)
+
     movement_type = models.CharField(max_length=20, choices=MOVEMENT_TYPES)
     quantity = models.PositiveIntegerField()
     reason_code = models.CharField(max_length=255, blank=True, help_text="Required for scrap or adjustments")
