@@ -28,9 +28,11 @@ urlpatterns = [
     
     # API Apps
     path('api/v1/inventory/', include('inventory.urls')),
+    path('api/v1/vendors/', include('vendors.urls')),
     path('api/v1/manufacturing/', include('manufacturing.urls')),
     path('api/v1/finance/', include('finance.urls')),
 ]
 
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+
